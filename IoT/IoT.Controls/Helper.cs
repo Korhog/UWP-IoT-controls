@@ -11,9 +11,11 @@ namespace IoT.Controls
 
         public static Path Arc(double radius, double angle, double width = 20)
         {
-            var path = new Path();
-            path.Width = radius * 2;
-            path.Height = radius * 2;
+            var path = new Path
+            {
+                Width = radius * 2,
+                Height = radius * 2
+            };
 
             var geometry = new PathGeometry();
 
@@ -58,7 +60,6 @@ namespace IoT.Controls
 
             return path;
         }
-
 
         private static Point ScaleUnitCirclePoint(Point origin, double angle, double radius)
         {

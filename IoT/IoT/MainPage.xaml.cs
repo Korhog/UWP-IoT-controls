@@ -17,8 +17,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace IoT
 {
-
-    using Controls;
     using Windows.UI;
 
     /// <summary>
@@ -29,9 +27,6 @@ namespace IoT
         public MainPage()
         {
             this.InitializeComponent();
-            var arc = Helper.Arc(70, 90, 15);
-            arc.Fill = new SolidColorBrush(Colors.YellowGreen);
-            canvas.Child = arc;
-        }        
+        }
     }
 }

@@ -9,11 +9,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Border 
-            VerticalAlignment="Top" HorizontalAlignment="Left"
-            x:Name="canvas" 
-            Padding="10"
-            Margin="5"
-            Background="#1d1d1d"/>
+        <StackPanel>
+            <iot:SliderCircle Width="250" Height="250" Background="#1d1d1d" HorizontalAlignment="Left" Margin="10"/>
+            <Slider x:Name="value" Maximum="100" Minimum="0"/>
+            <Slider x:Name="angle" Maximum="360" Minimum="0"/>            
+        </StackPanel>
     </Grid>
 </Page>

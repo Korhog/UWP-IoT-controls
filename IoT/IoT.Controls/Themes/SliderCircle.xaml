@@ -1,32 +1,54 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:IoT.Controls">
+    xmlns:local="using:IoT.Controls"
+    xmlns:base="using:IoT.BaseControls">
 
     <Style TargetType="local:SliderCircle" >
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SliderCircle">
-                    <Border
+                    <Border UseLayoutRounding="True"
+                        CornerRadius="10"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid Background="#1D1D1D">
-                            <Path Fill="#3F3F3F">
-                                <Path.Data>
-                                    <GeometryGroup FillRule="Nonzero">
-                                        <EllipseGeometry Center="0,0" RadiusX="60" RadiusY="60" />
-                                        <EllipseGeometry Center="0,0" RadiusX="40" RadiusY="40"/>
-
-                                        <RectangleGeometry Rect="0,0,70,70"/>
-                                    </GeometryGroup>
-                                </Path.Data>
-                                <Path.RenderTransform>
-                                    <TranslateTransform X="70" Y="70"/>
-                                </Path.RenderTransform>
-                            </Path>
-                        </Grid>
-
+                        <Grid>
+                            <Ellipse Stroke="White" StrokeThickness="2" 
+                                     Width="228"
+                                     Height="228"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"/>
+                            <Ellipse Stroke="Black" StrokeThickness="5" 
+                                     Width="196"
+                                     Height="196"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"/>
+                            <base:Sector 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                ArcRotation="180"
+                                Angle="180"
+                                Radius="110"
+                                ArcWidth="10"  
+                                Color="YellowGreen" />
+                            <base:Sector 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Angle="90"
+                                ArcRotation="0"
+                                Radius="110"
+                                ArcWidth="10"  
+                                Color="Yellow" />
+                            <base:Sector 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Angle="88"
+                                ArcRotation="91"
+                                Radius="110"
+                                ArcWidth="10"  
+                                Color="Red" />                            
+                        </Grid>                            
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

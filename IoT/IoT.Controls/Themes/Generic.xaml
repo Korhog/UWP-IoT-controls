@@ -4,6 +4,7 @@
     xmlns:local="using:IoT.Controls">
     
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/IoT.Controls/Themes/Sector.xaml"/>
         <ResourceDictionary Source="/IoT.Controls/Themes/SliderCircle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
