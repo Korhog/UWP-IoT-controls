@@ -7,7 +7,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:Sector">
-                    <Border x:Name="Container">
+                    <Border 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        x:Name="Container" 
+                        Background="{TemplateBinding Background}">
                         <Border.RenderTransform>
                             <RotateTransform x:Name="Transform" CenterX="40" CenterY="40" />
                         </Border.RenderTransform>

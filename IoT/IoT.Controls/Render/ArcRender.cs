@@ -81,7 +81,8 @@ namespace IoT.Render
             path = new Path
             {
                 Width = radius * 2,
-                Height = radius * 2
+                Height = radius * 2,
+                Fill = new SolidColorBrush(Colors.Black)
             };
 
             arcRadius = radius;

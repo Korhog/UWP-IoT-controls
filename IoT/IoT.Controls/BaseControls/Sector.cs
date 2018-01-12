@@ -33,16 +33,18 @@ namespace IoT.BaseControls
             rotateTransform.Angle = ArcRotation;
 
             var container = GetTemplateChild("Container") as Border;
+
             render = new SectorRender(Radius);
             render.Color = Color;
             render.ArcWidth = ArcWidth;
             render.Draw(Angle);
 
-            rotateTransform.CenterX = render.Radius;
-            rotateTransform.CenterY = render.Radius;
-
             container.Child = render.Path;
+
+            rotateTransform.CenterX = render.Radius;
+            rotateTransform.CenterY = render.Radius;  
         }
+
         #region Propertyes
 
         private static readonly DependencyProperty ArcRotationProperty = DependencyProperty.Register(
@@ -137,6 +139,7 @@ namespace IoT.BaseControls
             if (sector.render != null)
             {
                 sector.render.ArcWidth = (double)e.NewValue;
+                sector.render.Draw();
             }
         }
 
@@ -160,6 +163,7 @@ namespace IoT.BaseControls
             if (sector.render != null)
             {
                 sector.render.Color = (Color)e.NewValue;
+                sector.render.Draw();
             }
         }
         #endregion

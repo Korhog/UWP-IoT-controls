@@ -6,5 +6,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/IoT.Controls/Themes/Sector.xaml"/>
         <ResourceDictionary Source="/IoT.Controls/Themes/SliderCircle.xaml"/>
+        <ResourceDictionary Source="/IoT.Controls/Themes/ArcScale.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

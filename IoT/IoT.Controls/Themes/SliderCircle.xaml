@@ -8,48 +8,56 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SliderCircle">
-                    <Border UseLayoutRounding="True"
-                        CornerRadius="10"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <Ellipse Stroke="White" StrokeThickness="2" 
-                                     Width="228"
-                                     Height="228"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Center"/>
-                            <Ellipse Stroke="Black" StrokeThickness="5" 
-                                     Width="196"
-                                     Height="196"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Center"/>
-                            <base:Sector 
+                    <Grid>
+                        <base:Sector 
+                            x:Name="base"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ArcRotation="220"
+                            Angle="280"
+                            Radius="100"
+                            ArcWidth="{TemplateBinding SectorWidth}"  
+                            Color="{TemplateBinding BaseColor}" />
+                        <base:Sector 
+                            x:Name="value"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ArcRotation="220"
+                            Angle="80"
+                            Radius="100"
+                            ArcWidth="{TemplateBinding SectorWidth}"  
+                            Color="{TemplateBinding ValueColor}" />
+                        <Border 
+                            Width="100"
+                            BorderThickness="0" 
+                            CornerRadius="4"
+                            BorderBrush="White" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Padding="4"
+                            >
+                            <TextBlock 
+                                FontFamily="Consolas"
+                                Foreground="White"
+                                FontSize="28"
+                                x:Name="text" 
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
-                                ArcRotation="180"
-                                Angle="180"
-                                Radius="110"
-                                ArcWidth="10"  
-                                Color="YellowGreen" />
-                            <base:Sector 
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Angle="90"
-                                ArcRotation="0"
-                                Radius="110"
-                                ArcWidth="10"  
-                                Color="Yellow" />
-                            <base:Sector 
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Angle="88"
-                                ArcRotation="91"
-                                Radius="110"
-                                ArcWidth="10"  
-                                Color="Red" />                            
-                        </Grid>                            
-                    </Border>
+                                Text="10"/>
+                        </Border>
+                        <Ellipse 
+                            x:Name="thubms"
+                            ManipulationMode="All"
+                            Width="25" 
+                            Height="25" 
+                            Fill="White" 
+                            Stroke="Black" 
+                            StrokeThickness="3">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform x:Name="translate"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                    </Grid>                            
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

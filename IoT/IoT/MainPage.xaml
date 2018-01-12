@@ -8,11 +8,15 @@
     xmlns:iot="using:IoT.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
-            <iot:SliderCircle Width="250" Height="250" Background="#1d1d1d" HorizontalAlignment="Left" Margin="10"/>
-            <Slider x:Name="value" Maximum="100" Minimum="0"/>
-            <Slider x:Name="angle" Maximum="360" Minimum="0"/>            
-        </StackPanel>
+    <Grid Background="Black">
+        <Grid>
+            <iot:SliderCircle 
+                Radius ="60"
+                SectorWidth="10"
+                BaseColor="Gray"
+                ValueColor="MediumVioletRed"
+                Grid.Column="0" Margin="-12,6,12,-6">
+            </iot:SliderCircle>
+        </Grid> 
     </Grid>
 </Page>
