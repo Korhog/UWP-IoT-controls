@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="BaseControls\ArcScale.cs" />
     <Compile Include="BaseControls\Sector.cs" />
+    <Compile Include="Controllers\SpinerController.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\ArcRender.cs" />

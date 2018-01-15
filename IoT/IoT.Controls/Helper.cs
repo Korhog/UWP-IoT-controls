@@ -63,7 +63,10 @@ namespace IoT.Controls
 
         private static Point ScaleUnitCirclePoint(Point origin, double angle, double radius)
         {
-            return new Point(origin.X + Math.Sin(RADIANS * angle) * radius, origin.Y - Math.Cos(RADIANS * angle) * radius);
+            return new Point(
+                origin.X + Math.Sin(RADIANS * angle) * radius, 
+                origin.Y + Math.Cos(RADIANS * angle) * radius
+            );
         }
     }
 }

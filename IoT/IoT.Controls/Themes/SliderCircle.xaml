@@ -23,36 +23,18 @@
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             ArcRotation="220"
-                            Angle="80"
+                            Angle="0"
                             Radius="100"
                             ArcWidth="{TemplateBinding SectorWidth}"  
                             Color="{TemplateBinding ValueColor}" />
-                        <Border 
-                            Width="100"
-                            BorderThickness="0" 
-                            CornerRadius="4"
-                            BorderBrush="White" 
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Padding="4"
-                            >
-                            <TextBlock 
-                                FontFamily="Consolas"
-                                Foreground="White"
-                                FontSize="28"
-                                x:Name="text" 
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center"
-                                Text="10"/>
-                        </Border>
+                        
                         <Ellipse 
                             x:Name="thubms"
                             ManipulationMode="All"
-                            Width="25" 
-                            Height="25" 
+                            Width="31" 
+                            Height="31" 
                             Fill="White" 
-                            Stroke="Black" 
-                            StrokeThickness="3">
+>
                             <Ellipse.RenderTransform>
                                 <TranslateTransform x:Name="translate"/>
                             </Ellipse.RenderTransform>

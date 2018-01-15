@@ -9,14 +9,25 @@
     mc:Ignorable="d">
 
     <Grid Background="Black">
+        
         <Grid>
-            <iot:SliderCircle 
-                Radius ="60"
-                SectorWidth="10"
-                BaseColor="Gray"
-                ValueColor="MediumVioletRed"
-                Grid.Column="0" Margin="-12,6,12,-6">
-            </iot:SliderCircle>
+
+
+            <Ellipse Grid.ColumnSpan="2" Grid.RowSpan="2" Width="100" Height="100">
+                <Ellipse.Fill>
+                    <SolidColorBrush x:Name="brush" Color="Black"/>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <iot:SliderCircle  
+                x:Name="r"
+                Radius ="80"
+                SectorWidth="24"                
+                ValueColor="#5d5d6d"
+                BaseColor="#1d1d2d"
+                Grid.Row="0"
+                Grid.Column="0">
+            </iot:SliderCircle>            
         </Grid> 
     </Grid>
 </Page>

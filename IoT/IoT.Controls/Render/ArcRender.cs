@@ -117,18 +117,33 @@ namespace IoT.Render
             };
 
             pathFigure.Segments.Add(outerSegment);
-
+            
+            /*
             pathFigure.Segments.Add(new LineSegment
             {
                 Point = arcWidth.HasValue ? 
                     ComputeArcPoint(centerPoint, angle, arcRadius - arcWidth.Value) : 
                     centerPoint
             });
+            */
 
             // Если есть толщина, рисуем внутреннюю дугу
             if (arcWidth.HasValue)
             {
                 var size = arcRadius - arcWidth.Value;
+
+                var pointStart = ComputeArcPoint(centerPoint, angle, arcRadius);
+                var w = arcWidth.Value / 2;
+
+                var chunkSegment = new ArcSegment
+                {
+                    IsLargeArc = angle > 180.0,
+                    Point = ComputeArcPoint(centerPoint, angle, arcRadius - arcWidth.Value),
+                    Size = new Size(w, w),
+                    SweepDirection = SweepDirection.Clockwise
+                };
+
+                pathFigure.Segments.Add(chunkSegment);
 
                 var innerSegment = new ArcSegment
                 {
@@ -139,6 +154,15 @@ namespace IoT.Render
                 };
 
                 pathFigure.Segments.Add(innerSegment);
+
+                chunkSegment = new ArcSegment
+                {
+                    IsLargeArc = angle > 180.0,
+                    Point = new Point(circleStart.X, circleStart.Y),
+                    Size = new Size(w, w),
+                    SweepDirection = SweepDirection.Clockwise
+                };
+                pathFigure.Segments.Add(chunkSegment);
             }
 
             geometry.Figures.Add(pathFigure);

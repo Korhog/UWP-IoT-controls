@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Shapes;
 
 namespace IoT.Controls
 {
+    using Controllers;
     using BaseControls;
     using Windows.UI;
 
@@ -24,12 +25,12 @@ namespace IoT.Controls
         Sector baseSector;
 
         TextBlock text;
-        Point beginPosition;
-
-        double currentAngle = 180.0;
-
         Ellipse thubms;
         TranslateTransform translate;
+
+        SpinerController spinerController;
+
+        public event AngleChangedHandler AngleChanged;
 
         public SliderCircle()
         {
@@ -41,7 +42,6 @@ namespace IoT.Controls
             base.OnApplyTemplate();
 
             thubms = GetTemplateChild("thubms") as Ellipse;
-            text = GetTemplateChild("text") as TextBlock;
             valueSector = GetTemplateChild("value") as Sector;
             valueSector.Radius = Radius;
             valueSector.Width = Width;
@@ -50,46 +50,25 @@ namespace IoT.Controls
             baseSector.Radius = Radius;
             baseSector.Width = Width;
 
-            thubms.ManipulationStarting += OnManipulationStarting;
-            thubms.ManipulationDelta += OnManipulationDelta;
-
             translate = GetTemplateChild("translate") as TranslateTransform;
+            spinerController = new SpinerController(translate);
+            spinerController.AngleChanged += (s, e) =>
+            {
+                if (valueSector != null)
+                {
+                    valueSector.Angle = e.NewAngle - 40;
+                    AngleChanged?.Invoke(this, new SpinerControllerAngleChangedArgs
+                    {
+                        NewAngle = e.NewAngle,
+                        Delta = e.Delta
+                    });
+                }
+            };
+            spinerController.Radius = Radius;
 
-            var rad = (currentAngle) * Math.PI / 180.0;
-            UpdateThumbs(rad);
+            thubms.ManipulationStarting += spinerController.OnManipulationStarting;
+            thubms.ManipulationDelta += spinerController.OnManipulationDelta;
         }
-
-        void OnManipulationStarting(object sender, ManipulationStartingRoutedEventArgs args)
-        {
-            beginPosition = new Point(translate.X, translate.Y);
-        }
-
-        void OnManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs args)
-        {
-            var x = beginPosition.X + args.Delta.Translation.X;
-            var y = beginPosition.Y + args.Delta.Translation.Y;
-
-            var rad = Math.Atan2(x, y);
-            UpdateThumbs(rad);
-
-            var angle = rad * 180.0 / Math.PI;
-            if (angle < 0)
-                angle += 360;
-            angle = 360 - angle;
-
-            valueSector.Angle = angle - 40;
-            text.Text = valueSector.Angle.ToString("0.0");
-
-            beginPosition = new Point(x, y);
-        }
-
-        void UpdateThumbs(double rad)
-        {
-            var r = (Radius - SectorWidth / 2);
-            translate.X = Math.Sin(rad) * r;
-            translate.Y = Math.Cos(rad) * r;
-        }
-
 
         // Радиус
         private static readonly DependencyProperty RadiusProperty = DependencyProperty.Register(
