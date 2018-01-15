@@ -46,6 +46,8 @@ namespace IoT.Controls
             valueSector.Radius = Radius;
             valueSector.Width = Width;
 
+            thubms.Stroke = new SolidColorBrush(valueSector.Color);
+
             baseSector = GetTemplateChild("base") as Sector;
             baseSector.Radius = Radius;
             baseSector.Width = Width;
@@ -137,6 +139,8 @@ namespace IoT.Controls
             SliderCircle slider = sender as SliderCircle;
             if (slider.valueSector != null)
                 slider.valueSector.Color = (Color)e.NewValue;
+            if (slider.thubms != null)
+                slider.thubms.Stroke = new SolidColorBrush((Color)e.NewValue);
         }
 
         // Ширина

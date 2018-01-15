@@ -27,14 +27,18 @@
                             Radius="100"
                             ArcWidth="{TemplateBinding SectorWidth}"  
                             Color="{TemplateBinding ValueColor}" />
-                        
+
                         <Ellipse 
                             x:Name="thubms"
                             ManipulationMode="All"
-                            Width="31" 
-                            Height="31" 
-                            Fill="White" 
->
+                            Width="35" 
+                            Height="35" 
+                            Fill="White"
+                            StrokeThickness="3">
+                            <Ellipse.Stroke>
+                                <SolidColorBrush Color="{TemplateBinding ValueColor}"/>
+                            </Ellipse.Stroke>
+                            
                             <Ellipse.RenderTransform>
                                 <TranslateTransform x:Name="translate"/>
                             </Ellipse.RenderTransform>
