@@ -4,12 +4,13 @@
     xmlns:local="using:IoT.Controls"
     xmlns:base="using:IoT.BaseControls">
 
-    <Style TargetType="local:SliderCircle" >
+    <Style TargetType="local:CircleSlider" >
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:SliderCircle">
+                <ControlTemplate TargetType="local:CircleSlider">
                     <Grid>
                         <base:Sector 
+                            EndingsStyle="ENDINGS_ROUND"
                             x:Name="base"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
@@ -17,8 +18,9 @@
                             Angle="280"
                             Radius="100"
                             ArcWidth="{TemplateBinding SectorWidth}"  
-                            Color="{TemplateBinding BaseColor}" />
+                            Fill="{TemplateBinding BaseColor}" />
                         <base:Sector 
+                            EndingsStyle="ENDINGS_ROUND"
                             x:Name="value"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
@@ -26,21 +28,20 @@
                             Angle="0"
                             Radius="100"
                             ArcWidth="{TemplateBinding SectorWidth}"  
-                            Color="{TemplateBinding ValueColor}" />
-
+                            Fill="{TemplateBinding ValueColor}"/>
                         <Ellipse 
-                            x:Name="thubms"
+                            x:Name="thumb"
                             ManipulationMode="All"
-                            Width="35" 
-                            Height="35" 
+                            Width="20" 
+                            Height="20" 
                             Fill="White"
-                            StrokeThickness="3">
+                            StrokeThickness="0">
                             <Ellipse.Stroke>
                                 <SolidColorBrush Color="{TemplateBinding ValueColor}"/>
                             </Ellipse.Stroke>
                             
                             <Ellipse.RenderTransform>
-                                <TranslateTransform x:Name="translate"/>
+                                <CompositeTransform x:Name="transform"/>
                             </Ellipse.RenderTransform>
                         </Ellipse>
                     </Grid>                            

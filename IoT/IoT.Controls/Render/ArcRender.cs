@@ -6,6 +6,15 @@ using Windows.UI.Xaml.Shapes;
 
 namespace IoT.Render
 {
+    public enum ENDINGS_STYLE
+    {
+        NONE,
+        ENDINGS_FLAT,
+        ENDINGS_ROUND_BEGIN,
+        ENDINGS_ROUND_END,
+        ENDINGS_ROUND
+    }
+
     /// <summary> Помощни </summary>
     public class SectorRender
     {
@@ -51,15 +60,26 @@ namespace IoT.Render
         }
 
         // color
-        private Color color;
+        private Brush fill;
 
-        public Color Color
+        public Brush Fill
         {
-            get { return color; }
+            get { return fill; }
             set
             {
-                color = value;
-                path.Fill = new SolidColorBrush(color);
+                fill = value;
+                path.Fill = fill;
+            }
+        }
+
+        private ENDINGS_STYLE endingsStyle = ENDINGS_STYLE.ENDINGS_FLAT;
+        public ENDINGS_STYLE EndingsStyle
+        {
+            get { return endingsStyle; }
+            set
+            {
+                endingsStyle = value;
+                Draw();
             }
         }
 
@@ -135,15 +155,28 @@ namespace IoT.Render
                 var pointStart = ComputeArcPoint(centerPoint, angle, arcRadius);
                 var w = arcWidth.Value / 2;
 
-                var chunkSegment = new ArcSegment
+                ArcSegment chunkSegment;
+                if (endingsStyle == ENDINGS_STYLE.ENDINGS_ROUND_END || endingsStyle == ENDINGS_STYLE.ENDINGS_ROUND)
                 {
-                    IsLargeArc = angle > 180.0,
-                    Point = ComputeArcPoint(centerPoint, angle, arcRadius - arcWidth.Value),
-                    Size = new Size(w, w),
-                    SweepDirection = SweepDirection.Clockwise
-                };
+                    chunkSegment = new ArcSegment
+                    {
+                        IsLargeArc = angle > 180.0,
+                        Point = ComputeArcPoint(centerPoint, angle, arcRadius - arcWidth.Value),
+                        Size = new Size(w, w),
+                        SweepDirection = SweepDirection.Clockwise
+                    };
 
-                pathFigure.Segments.Add(chunkSegment);
+                    pathFigure.Segments.Add(chunkSegment);
+                }
+                else
+                {
+                    pathFigure.Segments.Add(new LineSegment
+                    {
+                        Point = arcWidth.HasValue ?
+                            ComputeArcPoint(centerPoint, angle, arcRadius - arcWidth.Value) :
+                            centerPoint
+                    });
+                }                
 
                 var innerSegment = new ArcSegment
                 {
@@ -155,14 +188,37 @@ namespace IoT.Render
 
                 pathFigure.Segments.Add(innerSegment);
 
-                chunkSegment = new ArcSegment
+                if (endingsStyle == ENDINGS_STYLE.ENDINGS_ROUND_BEGIN || endingsStyle == ENDINGS_STYLE.ENDINGS_ROUND)
                 {
-                    IsLargeArc = angle > 180.0,
-                    Point = new Point(circleStart.X, circleStart.Y),
-                    Size = new Size(w, w),
-                    SweepDirection = SweepDirection.Clockwise
-                };
-                pathFigure.Segments.Add(chunkSegment);
+                    chunkSegment = new ArcSegment
+                    {
+                        IsLargeArc = angle > 180.0,
+                        Point = new Point(circleStart.X, circleStart.Y),
+                        Size = new Size(w, w),
+                        SweepDirection = SweepDirection.Clockwise
+                    };
+                    pathFigure.Segments.Add(chunkSegment);
+                }
+                else
+                {
+                    /*
+                    pathFigure.Segments.Add(new LineSegment
+                    {
+                        Point = arcWidth.HasValue ?
+                            ComputeArcPoint(centerPoint, angle, arcRadius) :
+                            centerPoint
+                    });
+                    */
+                }
+            }
+            else
+            {
+                pathFigure.Segments.Add(new LineSegment
+                {
+                    Point = arcWidth.HasValue ?
+                        ComputeArcPoint(centerPoint, angle, arcRadius - arcWidth.Value) :
+                        centerPoint
+                });
             }
 
             geometry.Figures.Add(pathFigure);

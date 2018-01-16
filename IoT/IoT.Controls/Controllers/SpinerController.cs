@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 namespace IoT.Controllers
 {
@@ -24,16 +25,33 @@ namespace IoT.Controllers
 
         public event AngleChangedHandler AngleChanged;
 
+        bool isRanded = true;
+
+        double baseOffset = 12.0;
+
+        double beginRange = 0.0;
+        double endRange = 359.0;
+
         double spinnerAngle = 40.0;
         double accumulatedAngle = 0.0;
         double currentAngle = 0.0;
 
-        Point beginPosition;        
-        TranslateTransform translateTransform;
+        public double SpinnerAngle { get { return spinnerAngle; } }
 
-        public SpinerController(TranslateTransform translate)
+        Point beginPosition;
+        CompositeTransform compositeTransform;
+
+        public SpinerController(Shape thumb, CompositeTransform transform)
         {
-            translateTransform = translate;
+            compositeTransform = transform;
+            compositeTransform.CenterX = thumb.Width / 2;
+            compositeTransform.CenterY = thumb.Height / 2;
+
+            baseOffset = thumb.Height / 2;
+
+            thumb.ManipulationStarting += OnManipulationStarting;
+            thumb.ManipulationDelta += OnManipulationDelta;
+
             UpdateSpiner();
         }
 
@@ -42,8 +60,8 @@ namespace IoT.Controllers
             accumulatedAngle = spinnerAngle;
             currentAngle = ExternalAngleToCurrentRad(spinnerAngle);
             beginPosition = new Point(
-                translateTransform.X, 
-                translateTransform.Y
+                compositeTransform.TranslateX,
+                compositeTransform.TranslateY
             );
         }
 
@@ -100,8 +118,12 @@ namespace IoT.Controllers
             accumulatedAngle += delta;
             spinnerAngle = accumulatedAngle;
 
-            if (spinnerAngle < 40) spinnerAngle = 40;
-            if (spinnerAngle > 320) spinnerAngle = 320;
+            if (isRanded)
+            {
+
+                if (spinnerAngle < beginRange) spinnerAngle = beginRange;
+                if (spinnerAngle > endRange) spinnerAngle = endRange;
+            }
 
 
             currentAngle = rad;
@@ -119,11 +141,16 @@ namespace IoT.Controllers
 
         void UpdateSpiner()
         {
-            var r = Radius - 12;
+            var r = Radius - baseOffset;
             var a = ExternalAngleToCurrentRad(spinnerAngle);
 
-            translateTransform.X = Math.Sin(a) * r;
-            translateTransform.Y = Math.Cos(a) * r;
+            var x = Math.Sin(a) * r; 
+            var y = Math.Cos(a) * r;
+
+            compositeTransform.Rotation = spinnerAngle;
+
+            compositeTransform.TranslateX = x;
+            compositeTransform.TranslateY = y;           
         }
 
         double radius = 50.0;

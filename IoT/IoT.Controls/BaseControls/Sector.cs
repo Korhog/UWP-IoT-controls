@@ -35,9 +35,10 @@ namespace IoT.BaseControls
             var container = GetTemplateChild("Container") as Border;
 
             render = new SectorRender(Radius);
-            render.Color = Color;
+            render.Fill = Fill;
             render.ArcWidth = ArcWidth;
-            render.Draw(Angle);
+            render.EndingsStyle = EndingsStyle;
+            render.Draw(ValueToAngle(Angle));
 
             container.Child = render.Path;
 
@@ -144,28 +145,59 @@ namespace IoT.BaseControls
         }
 
         // Цвет
-        private static readonly DependencyProperty ColorProperty = DependencyProperty.Register(
-            "Color",
-            typeof(Color),
+        private static readonly DependencyProperty FillProperty = DependencyProperty.Register(
+            "Fill",
+            typeof(Brush),
             typeof(Sector),
-            new PropertyMetadata(Colors.YellowGreen, new PropertyChangedCallback(OnColorChanged))
+            new PropertyMetadata(
+                new SolidColorBrush(Colors.YellowGreen), 
+                new PropertyChangedCallback(OnFillChanged)
+            )
         );
 
-        public Color Color
+        public Brush Fill
         {
-            get { return (Color)GetValue(ColorProperty); }
-            set { SetValue(ColorProperty, value); }
+            get { return (Brush)GetValue(FillProperty); }
+            set { SetValue(FillProperty, value); }
         }
 
-        private static void OnColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnFillChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             Sector sector = sender as Sector;
             if (sector.render != null)
             {
-                sector.render.Color = (Color)e.NewValue;
+                sector.render.Fill = (Brush)e.NewValue;
                 sector.render.Draw();
             }
         }
+
+        // Endings
+        private static readonly DependencyProperty EndingsStyleProperty = DependencyProperty.Register(
+            "EndingsStyle",
+            typeof(ENDINGS_STYLE),
+            typeof(Sector),
+            new PropertyMetadata(
+                ENDINGS_STYLE.ENDINGS_FLAT,
+                new PropertyChangedCallback(OnEndingsStyleChanged)
+            )
+        );
+
+        public ENDINGS_STYLE EndingsStyle
+        {
+            get { return (ENDINGS_STYLE)GetValue(EndingsStyleProperty); }
+            set { SetValue(EndingsStyleProperty, value); }
+        }
+
+        private static void OnEndingsStyleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            Sector sector = sender as Sector;
+            if (sector.render != null)
+            {
+                sector.render.EndingsStyle = (ENDINGS_STYLE)e.NewValue;
+                sector.render.Draw();
+            }
+        }
+
         #endregion
     }
 }

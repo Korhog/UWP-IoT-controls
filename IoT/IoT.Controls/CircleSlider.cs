@@ -19,41 +19,43 @@ namespace IoT.Controls
     using BaseControls;
     using Windows.UI;
 
-    public sealed class SliderCircle : Control
+    public sealed class CircleSlider : Control
     {
         Sector valueSector;
         Sector baseSector;
 
         TextBlock text;
-        Ellipse thubms;
-        TranslateTransform translate;
+        Shape thumb;
+        CompositeTransform transform;
 
         SpinerController spinerController;
 
         public event AngleChangedHandler AngleChanged;
 
-        public SliderCircle()
+        public CircleSlider()
         {
-            this.DefaultStyleKey = typeof(SliderCircle);
+            this.DefaultStyleKey = typeof(CircleSlider);
         }
 
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            thubms = GetTemplateChild("thubms") as Ellipse;
+            thumb = GetTemplateChild("thumb") as Ellipse;
             valueSector = GetTemplateChild("value") as Sector;
             valueSector.Radius = Radius;
             valueSector.Width = Width;
+            valueSector.Fill = new SolidColorBrush(ValueColor);
 
-            thubms.Stroke = new SolidColorBrush(valueSector.Color);
+            thumb.Stroke = valueSector.Fill;
 
             baseSector = GetTemplateChild("base") as Sector;
             baseSector.Radius = Radius;
             baseSector.Width = Width;
+            baseSector.Fill = new SolidColorBrush(BaseColor);
 
-            translate = GetTemplateChild("translate") as TranslateTransform;
-            spinerController = new SpinerController(translate);
+            transform = GetTemplateChild("transform") as CompositeTransform;
+            spinerController = new SpinerController(thumb, transform);
             spinerController.AngleChanged += (s, e) =>
             {
                 if (valueSector != null)
@@ -67,16 +69,13 @@ namespace IoT.Controls
                 }
             };
             spinerController.Radius = Radius;
-
-            thubms.ManipulationStarting += spinerController.OnManipulationStarting;
-            thubms.ManipulationDelta += spinerController.OnManipulationDelta;
         }
 
         // Радиус
         private static readonly DependencyProperty RadiusProperty = DependencyProperty.Register(
             "Radius",
             typeof(double),
-            typeof(SliderCircle),
+            typeof(CircleSlider),
             new PropertyMetadata(60.0, new PropertyChangedCallback(OnRadiusChanged))
         );
 
@@ -88,7 +87,7 @@ namespace IoT.Controls
 
         private static void OnRadiusChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            SliderCircle slider = sender as SliderCircle;
+            CircleSlider slider = sender as CircleSlider;
             if (slider.valueSector != null)
                 slider.valueSector.Radius = (double)e.NewValue;
             if (slider.baseSector != null)
@@ -99,7 +98,7 @@ namespace IoT.Controls
         private static readonly DependencyProperty BaseColorProperty = DependencyProperty.Register(
             "BaseColor",
             typeof(Color),
-            typeof(SliderCircle),
+            typeof(CircleSlider),
             new PropertyMetadata(
                 Colors.YellowGreen, 
                 new PropertyChangedCallback(OnBaseColorChanged))
@@ -113,16 +112,16 @@ namespace IoT.Controls
 
         private static void OnBaseColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            SliderCircle slider = sender as SliderCircle;
+            CircleSlider slider = sender as CircleSlider;
             if (slider.baseSector != null)
-                slider.baseSector.Color = (Color)e.NewValue;
+                slider.baseSector.Fill = new SolidColorBrush((Color)e.NewValue);
         }
 
         // Цвет значения
         private static readonly DependencyProperty ValueColorProperty = DependencyProperty.Register(
             "ValueColor",
             typeof(Color),
-            typeof(SliderCircle),
+            typeof(CircleSlider),
             new PropertyMetadata(
                 Colors.Green,
                 new PropertyChangedCallback(OnValueColorChanged))
@@ -136,18 +135,18 @@ namespace IoT.Controls
 
         private static void OnValueColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            SliderCircle slider = sender as SliderCircle;
+            CircleSlider slider = sender as CircleSlider;
             if (slider.valueSector != null)
-                slider.valueSector.Color = (Color)e.NewValue;
-            if (slider.thubms != null)
-                slider.thubms.Stroke = new SolidColorBrush((Color)e.NewValue);
+                slider.valueSector.Fill = new SolidColorBrush((Color)e.NewValue);
+            if (slider.thumb != null)
+                slider.thumb.Stroke = new SolidColorBrush((Color)e.NewValue);
         }
 
         // Ширина
         private static readonly DependencyProperty SectorWidthProperty = DependencyProperty.Register(
             "SectorWidth",
             typeof(double),
-            typeof(SliderCircle),
+            typeof(CircleSlider),
             new PropertyMetadata(
                 20.0,
                 new PropertyChangedCallback(OnSectorWidthChanged))
@@ -161,7 +160,7 @@ namespace IoT.Controls
 
         private static void OnSectorWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            SliderCircle slider = sender as SliderCircle;
+            CircleSlider slider = sender as CircleSlider;
             if (slider.valueSector != null)
                 slider.valueSector.ArcWidth = (double)e.NewValue;
             if (slider.baseSector != null)

@@ -12,18 +12,27 @@ namespace IoT.BaseControls
         public double X2 { get; set; }
         public double Y1 { get; set; }
         public double Y2 { get; set; }
+        public double Width { get; set; } = 10.0;
     }
 
     public sealed class ArcScale : Control
     {
+        ItemsControl sectionsControl;
+        ObservableCollection<Section> sections;
+
         public ArcScale()
         {
-            this.DefaultStyleKey = typeof(ArcScale);            
+            this.DefaultStyleKey = typeof(ArcScale);
+            sections = new ObservableCollection<Section>();
         }
 
         protected override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
+            base.OnApplyTemplate();            
+
+            sectionsControl = GetTemplateChild("sections") as ItemsControl;
+            sectionsControl.ItemsSource = sections;
+
             SizeChanged += (sender, e) =>
             {
                 RebuildScale();
@@ -33,14 +42,17 @@ namespace IoT.BaseControls
         void RebuildScale()
         {
             int sec = SectionsCount;
+            if (EndAngle - BeginAngle < 360)
+                sec++;
             // пока у нас будет радиус и толщина фиксированная
-            double radius = ActualHeight / 2.0;
-            double width = 20;
+            double radius = Math.Min(ActualHeight, ActualWidth) / 2.0;
+            double width = SectionHeight;
+
 
             double angle = BeginAngle;
             double sectionAngle = (EndAngle - BeginAngle) / sec;
 
-            Sections.Clear();           
+            sections.Clear(); 
 
             for (int i = 0; i < sec; i++)
             {
@@ -59,12 +71,13 @@ namespace IoT.BaseControls
                     y1 = radius + (radius - width) * Math.Cos(rad);
                 }
 
-                Sections.Add(new Section
+                sections.Add(new Section
                 {
                     X1 = x1,
                     X2 = x2,
                     Y1 = y1,
-                    Y2 = y2
+                    Y2 = y2,
+                    Width = SectionWidth
                 });
             }
         }
@@ -87,7 +100,11 @@ namespace IoT.BaseControls
 
         private static void OnBeginAngleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            (sender as ArcScale)?.RebuildScale();
+            var scale = (ArcScale)sender;
+            if (scale != null)
+            {
+                scale.RebuildScale();
+            }            
         }
 
         /// <summary>
@@ -111,20 +128,6 @@ namespace IoT.BaseControls
             (sender as ArcScale)?.RebuildScale();
         }
 
-        public ObservableCollection<Section> Sections
-        {
-            get { return (ObservableCollection<Section>)GetValue(SectionsProperty); }
-            set { SetValue(SectionsProperty, value); }
-        }
-
-        private static readonly DependencyProperty SectionsProperty = DependencyProperty.Register(
-            "Sections",
-            typeof(ObservableCollection<Section>),
-            typeof(ArcScale),
-            new PropertyMetadata(
-                new ObservableCollection<Section>())
-        );
-
         public int SectionsCount
         {
             get { return (int)GetValue(SectionsCountProperty); }
@@ -139,6 +142,42 @@ namespace IoT.BaseControls
         );
 
         private static void OnSectionsCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            (sender as ArcScale)?.RebuildScale();
+        }
+
+        public double SectionHeight
+        {
+            get { return (double)GetValue(SectionHeightProperty); }
+            set { SetValue(SectionHeightProperty, value); }
+        }
+
+        private static readonly DependencyProperty SectionHeightProperty = DependencyProperty.Register(
+            "SectionHeight",
+            typeof(double),
+            typeof(ArcScale),
+            new PropertyMetadata(10.0, new PropertyChangedCallback(OnSectionHeightChanged))
+        );
+
+        private static void OnSectionHeightChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            (sender as ArcScale)?.RebuildScale();
+        }
+
+        public double SectionWidth
+        {
+            get { return (double)GetValue(SectionWidthProperty); }
+            set { SetValue(SectionWidthProperty, value); }
+        }
+
+        private static readonly DependencyProperty SectionWidthProperty = DependencyProperty.Register(
+            "SectionWidth",
+            typeof(double),
+            typeof(ArcScale),
+            new PropertyMetadata(1.0, new PropertyChangedCallback(OnSectionWidthChanged))
+        );
+
+        private static void OnSectionWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             (sender as ArcScale)?.RebuildScale();
         }

@@ -6,15 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:iot="using:IoT.Controls"
+    xmlns:base="using:IoT.BaseControls"
     mc:Ignorable="d">
 
     <Grid Background="Black">
         
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>               
+            </Grid.ColumnDefinitions>            
 
             <Ellipse Grid.ColumnSpan="2" Grid.RowSpan="2" Width="100" Height="100">
                 <Ellipse.Fill>
@@ -22,23 +23,57 @@
                 </Ellipse.Fill>
             </Ellipse>
 
-            <iot:SliderCircle  
-                Radius="90"
-                SectorWidth="24"                
-                ValueColor="Red"
+            <Ellipse Fill="#1d1d2d" Width="90" Height="90"/>
+
+            <iot:CircleSlider  
+                Radius="100"
+                SectorWidth="20"                
+                ValueColor="DeepSkyBlue"
                 BaseColor="#1d1d2d"
                 Grid.Row="0"
-                Grid.Column="0">
-            </iot:SliderCircle>
+                Grid.Column="0">                
+            </iot:CircleSlider>
 
-            <iot:SliderCircle  
-                Radius="90"
-                SectorWidth="24"                
-                ValueColor="Violet"
-                BaseColor="#1d1d2d"
-                Grid.Row="1"
-                Grid.Column="0">
-            </iot:SliderCircle>
+            <base:Sector 
+                EndingsStyle="ENDINGS_ROUND"
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                ArcRotation="180"
+                Angle="240"
+                Radius="51"
+                ArcWidth="4"  
+                Fill="YellowGreen" />           
+
+
+            <iot:DoubleCircleSlider Grid.Column="1">
+                <iot:DoubleCircleSlider.BaseStyle>
+                    <Style TargetType="base:Sector">
+                        <Setter Property="Background" Value="Black"/>
+                    </Style>
+                </iot:DoubleCircleSlider.BaseStyle>
+            </iot:DoubleCircleSlider>
+
+            <base:ArcScale 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                SectionsCount="72"
+                Width="222" 
+                Height="222"
+                SectionHeight="6"   
+                SectionWidth="2"
+                Grid.Column="1" />
+
+            <base:ArcScale 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                SectionsCount="4"
+                Width="234" 
+                Height="234"
+                SectionHeight="12"
+                SectionWidth="4"
+                Grid.Column="1" />
         </Grid> 
     </Grid>
 </Page>

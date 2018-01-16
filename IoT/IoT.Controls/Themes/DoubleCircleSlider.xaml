@@ -1,0 +1,69 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IoT.Controls"
+    xmlns:base="using:IoT.BaseControls">
+
+    <Style TargetType="local:DoubleCircleSlider" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:DoubleCircleSlider">
+                    <Grid>
+                        <base:Sector 
+                            EndingsStyle="ENDINGS_FLAT"
+                            x:Name="base"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ArcRotation="0"
+                            Angle="360"
+                            Radius="100"
+                            ArcWidth="24"  
+                            Fill="#1d1d1d" />
+                        <base:Sector 
+                            x:Name="value"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            ArcRotation="180"
+                            Angle="0"
+                            Radius="100"
+                            ArcWidth="24">
+                            <base:Sector.Fill>
+                                <LinearGradientBrush EndPoint="1, 1" StartPoint="0.3, 0">
+                                    <GradientStop Color="DeepPink" Offset="0"/>
+                                    <GradientStop Color="DeepSkyBlue" Offset="1"/>
+                                </LinearGradientBrush>
+                            </base:Sector.Fill>
+                        </base:Sector>
+                        
+                        <Ellipse 
+                            x:Name="PART_BeginThumb"
+                            ManipulationMode="All"
+                            Width="30" 
+                            Height="30" 
+                            Fill="White">
+
+
+                            <Ellipse.RenderTransform>
+                                <CompositeTransform x:Name="PART_BeginTransform"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+
+                        <Ellipse 
+                            x:Name="PART_EndThumb"
+                            ManipulationMode="All"
+                            Width="30" 
+                            Height="30" 
+                            Fill="White">
+
+                            <Ellipse.RenderTransform>
+                                <CompositeTransform x:Name="PART_EndTransform"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
