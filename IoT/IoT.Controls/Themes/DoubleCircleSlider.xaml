@@ -27,8 +27,8 @@
                             Angle="0"
                             Radius="100"
                             ArcWidth="24">
-                            <base:Sector.Fill>
-                                <LinearGradientBrush EndPoint="1, 1" StartPoint="0.3, 0">
+                            <base:Sector.Fill>  
+                                <LinearGradientBrush>
                                     <GradientStop Color="DeepPink" Offset="0"/>
                                     <GradientStop Color="DeepSkyBlue" Offset="1"/>
                                 </LinearGradientBrush>
