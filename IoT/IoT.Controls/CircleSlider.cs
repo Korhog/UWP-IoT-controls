@@ -19,16 +19,14 @@ namespace IoT.Controls
     using BaseControls;
     using Windows.UI;
 
-    public sealed class CircleSlider : Control
+    public class CircleSlider : Control
     {
-        Sector valueSector;
-        Sector baseSector;
+        protected Sector valueSector;
+        protected Sector baseSector;
 
-        TextBlock text;
-        Shape thumb;
-        CompositeTransform transform;
-
-        SpinerController spinerController;
+        protected SpinnerThumb mainThumb;
+        protected CompositeTransform mainTransform;
+        protected SpinerController mainSpinerController;
 
         public event AngleChangedHandler AngleChanged;
 
@@ -41,34 +39,25 @@ namespace IoT.Controls
         {
             base.OnApplyTemplate();
 
-            thumb = GetTemplateChild("thumb") as Ellipse;
-            valueSector = GetTemplateChild("value") as Sector;
+            mainThumb = GetTemplateChild("PART_MainThumb") as SpinnerThumb;
+            mainThumb.Content = MainThumb;
+
+            valueSector = GetTemplateChild("PART_Value") as Sector;
             valueSector.Radius = Radius;
             valueSector.Width = Width;
-            valueSector.Fill = new SolidColorBrush(ValueColor);
+            valueSector.Fill = new SolidColorBrush(ValueColor);            
 
-            thumb.Stroke = valueSector.Fill;
-
-            baseSector = GetTemplateChild("base") as Sector;
+            baseSector = GetTemplateChild("PART_Base") as Sector;
             baseSector.Radius = Radius;
             baseSector.Width = Width;
             baseSector.Fill = new SolidColorBrush(BaseColor);
 
-            transform = GetTemplateChild("transform") as CompositeTransform;
-            spinerController = new SpinerController(thumb, transform);
-            spinerController.AngleChanged += (s, e) =>
-            {
-                if (valueSector != null)
-                {
-                    valueSector.Angle = e.NewAngle - 40;
-                    AngleChanged?.Invoke(this, new SpinerControllerAngleChangedArgs
-                    {
-                        NewAngle = e.NewAngle,
-                        Delta = e.Delta
-                    });
-                }
-            };
-            spinerController.Radius = Radius;
+            mainTransform = GetTemplateChild("PART_MainTransform") as CompositeTransform;
+            mainSpinerController = new SpinerController(mainThumb, mainTransform);
+            mainSpinerController.AngleChanged += MainAngleChanged;
+;
+            mainSpinerController.Radius = Radius;
+            mainSpinerController.BaseOffset = SectorWidth / 2;
         }
 
         // Радиус
@@ -138,8 +127,6 @@ namespace IoT.Controls
             CircleSlider slider = sender as CircleSlider;
             if (slider.valueSector != null)
                 slider.valueSector.Fill = new SolidColorBrush((Color)e.NewValue);
-            if (slider.thumb != null)
-                slider.thumb.Stroke = new SolidColorBrush((Color)e.NewValue);
         }
 
         // Ширина
@@ -160,11 +147,66 @@ namespace IoT.Controls
 
         private static void OnSectorWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
+            (sender as CircleSlider)?.SetSectorWidth((double)e.NewValue);
+               
+        }
+
+        protected virtual bool SetSectorWidth(double value)
+        {
+            if (valueSector != null && baseSector != null)
+            {
+                valueSector.ArcWidth = value;
+                baseSector.ArcWidth = value;
+
+                mainSpinerController.BaseOffset = value / 2;
+
+                return true;
+            }
+            return false;
+        }
+
+        // Main thumb style
+        private static readonly DependencyProperty MainThumbProperty = DependencyProperty.Register(
+            "MainThumb",
+            typeof(FrameworkElement),
+            typeof(CircleSlider),
+            new PropertyMetadata(
+                new Ellipse() {
+                    Width = 30,
+                    Height = 30,
+                    Fill = new SolidColorBrush(Colors.White)
+                }, 
+                new PropertyChangedCallback(OnMainThumbChanged))
+        );
+
+        public FrameworkElement MainThumb
+        {
+            get { return (FrameworkElement)GetValue(MainThumbProperty); }
+            set { SetValue(MainThumbProperty, value); }
+        }
+
+        private static void OnMainThumbChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
             CircleSlider slider = sender as CircleSlider;
-            if (slider.valueSector != null)
-                slider.valueSector.ArcWidth = (double)e.NewValue;
-            if (slider.baseSector != null)
-                slider.baseSector.ArcWidth = (double)e.NewValue;
+            var template = (FrameworkElement)e.NewValue;
+
+            if (slider.mainThumb != null && template != null)
+            {
+                slider.mainThumb.Content = template;
+            }
+        }
+
+        protected virtual void MainAngleChanged(object sender, SpinerControllerAngleChangedArgs e)
+        {
+            if (valueSector != null)
+            {
+                valueSector.Angle = e.NewAngle - 40;
+                AngleChanged?.Invoke(this, new SpinerControllerAngleChangedArgs
+                {
+                    NewAngle = e.NewAngle,
+                    Delta = e.Delta
+                });
+            }
         }
     }
 }

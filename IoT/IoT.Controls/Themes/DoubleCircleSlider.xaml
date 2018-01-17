@@ -10,56 +10,45 @@
                 <ControlTemplate TargetType="local:DoubleCircleSlider">
                     <Grid>
                         <base:Sector 
-                            EndingsStyle="ENDINGS_FLAT"
-                            x:Name="base"
+                            EndingsStyle="ENDINGS_ROUND"
+                            x:Name="PART_Base"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
-                            ArcRotation="0"
-                            Angle="360"
+                            ArcRotation="220"
+                            Angle="280"
                             Radius="100"
-                            ArcWidth="24"  
-                            Fill="#1d1d1d" />
+                            ArcWidth="{TemplateBinding SectorWidth}"  
+                            Fill="#1D1D3D" />
                         <base:Sector 
-                            x:Name="value"
+                            EndingsStyle="ENDINGS_ROUND"
+                            x:Name="PART_Value"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
-                            ArcRotation="180"
+                            ArcRotation="220"
                             Angle="0"
                             Radius="100"
-                            ArcWidth="24">
-                            <base:Sector.Fill>  
-                                <LinearGradientBrush>
-                                    <GradientStop Color="DeepPink" Offset="0"/>
-                                    <GradientStop Color="DeepSkyBlue" Offset="1"/>
-                                </LinearGradientBrush>
-                            </base:Sector.Fill>
-                        </base:Sector>
-                        
-                        <Ellipse 
-                            x:Name="PART_BeginThumb"
-                            ManipulationMode="All"
-                            Width="30" 
-                            Height="30" 
-                            Fill="White">
+                            ArcWidth="{TemplateBinding SectorWidth}"  
+                            Fill="Blue"/>
 
+                        <base:SpinnerThumb
+                            x:Name="PART_SecondThumb"
+                            Width="40"
+                            Height="40"
+                            ManipulationMode="All">
+                            <base:SpinnerThumb.RenderTransform>
+                                <CompositeTransform x:Name="PART_SecondTransform"/>
+                            </base:SpinnerThumb.RenderTransform>
+                        </base:SpinnerThumb>
 
-                            <Ellipse.RenderTransform>
-                                <CompositeTransform x:Name="PART_BeginTransform"/>
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
-
-                        <Ellipse 
-                            x:Name="PART_EndThumb"
-                            ManipulationMode="All"
-                            Width="30" 
-                            Height="30" 
-                            Fill="White">
-
-                            <Ellipse.RenderTransform>
-                                <CompositeTransform x:Name="PART_EndTransform"/>
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
-
+                        <base:SpinnerThumb
+                            x:Name="PART_MainThumb"
+                            Width="40"
+                            Height="40"
+                            ManipulationMode="All">
+                            <base:SpinnerThumb.RenderTransform>
+                                <CompositeTransform x:Name="PART_MainTransform"/>
+                            </base:SpinnerThumb.RenderTransform>
+                        </base:SpinnerThumb>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

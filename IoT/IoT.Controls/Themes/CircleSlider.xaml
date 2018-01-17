@@ -11,7 +11,7 @@
                     <Grid>
                         <base:Sector 
                             EndingsStyle="ENDINGS_ROUND"
-                            x:Name="base"
+                            x:Name="PART_Base"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             ArcRotation="220"
@@ -21,7 +21,7 @@
                             Fill="{TemplateBinding BaseColor}" />
                         <base:Sector 
                             EndingsStyle="ENDINGS_ROUND"
-                            x:Name="value"
+                            x:Name="PART_Value"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             ArcRotation="220"
@@ -29,21 +29,15 @@
                             Radius="100"
                             ArcWidth="{TemplateBinding SectorWidth}"  
                             Fill="{TemplateBinding ValueColor}"/>
-                        <Ellipse 
-                            x:Name="thumb"
-                            ManipulationMode="All"
-                            Width="20" 
-                            Height="20" 
-                            Fill="White"
-                            StrokeThickness="0">
-                            <Ellipse.Stroke>
-                                <SolidColorBrush Color="{TemplateBinding ValueColor}"/>
-                            </Ellipse.Stroke>
-                            
-                            <Ellipse.RenderTransform>
-                                <CompositeTransform x:Name="transform"/>
-                            </Ellipse.RenderTransform>
-                        </Ellipse>
+                        <base:SpinnerThumb
+                            x:Name="PART_MainThumb"
+                            Width="40"
+                            Height="40"
+                            ManipulationMode="All">
+                            <base:SpinnerThumb.RenderTransform>
+                                <CompositeTransform x:Name="PART_MainTransform"/>
+                            </base:SpinnerThumb.RenderTransform>
+                        </base:SpinnerThumb>
                     </Grid>                            
                 </ControlTemplate>
             </Setter.Value>

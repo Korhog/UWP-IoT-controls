@@ -7,9 +7,11 @@
         <!-- base controls -->
         <ResourceDictionary Source="/IoT.Controls/Themes/Sector.xaml"/>        
         <ResourceDictionary Source="/IoT.Controls/Themes/ArcScale.xaml"/>
-        
+        <ResourceDictionary Source="/IoT.Controls/Themes/SpinnerThumb.xaml"/>
+
         <!-- sliders -->
         <ResourceDictionary Source="/IoT.Controls/Themes/CircleSlider.xaml"/>
         <ResourceDictionary Source="/IoT.Controls/Themes/DoubleCircleSlider.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
 </ResourceDictionary>

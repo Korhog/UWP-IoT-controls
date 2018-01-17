@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -14,19 +15,11 @@ using Windows.UI.Xaml.Shapes;
 
 namespace IoT.Controls
 {
-    public sealed class DoubleCircleSlider : Control
+    public sealed class DoubleCircleSlider : CircleSlider
     {
-        Shape beginThumb;
-        Shape endThumb;
-
-        SpinerController beginSpinerController;
-        SpinerController endSpinerController;
-
-        CompositeTransform beginTransform;
-        CompositeTransform endTransform;
-
-        Sector valueSector;
-        Sector baseSector;
+        SpinnerThumb secondThumb;
+        SpinerController secondSpinerController;
+        CompositeTransform secondTransform;
 
         public DoubleCircleSlider()
         {
@@ -36,57 +29,73 @@ namespace IoT.Controls
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+            
+            secondThumb = GetTemplateChild("PART_SecondThumb") as SpinnerThumb;
+            secondThumb.Content = SecondThumb;
+            secondTransform = GetTemplateChild("PART_SecondTransform") as CompositeTransform;
+            secondSpinerController = new SpinerController(secondThumb, secondTransform);
 
-            valueSector = GetTemplateChild("value") as Sector;
-            baseSector = GetTemplateChild("base") as Sector;
-            baseSector.Style = BaseStyle;
+            secondSpinerController.BaseOffset = SectorWidth / 2;
+            secondSpinerController.Radius = Radius;       
+            secondSpinerController.AngleChanged += SecondAngleChanged;
+        }
 
-            beginThumb = GetTemplateChild("PART_BeginThumb") as Shape;
-            beginTransform = GetTemplateChild("PART_BeginTransform") as CompositeTransform;
-            beginSpinerController = new SpinerController(beginThumb, beginTransform);
+        protected override bool SetSectorWidth(double value)
+        {
+            if (base.SetSectorWidth(value))
+            {
+                secondSpinerController.BaseOffset = value / 2;
+                return true;
+            }
+            return false;
+        }
 
+        protected override void MainAngleChanged(object sender, SpinerControllerAngleChangedArgs e)
+        {
+            if (valueSector != null)
+            {               
+                valueSector.Angle = e.NewAngle - secondSpinerController.SpinnerAngle;
+            }
+        }
 
-            beginSpinerController.Radius = 100;
-            beginSpinerController.AngleChanged += (sender, e) =>
+        void SecondAngleChanged(object sender, SpinerControllerAngleChangedArgs e)
+        {
+            if (valueSector != null)
             {
                 valueSector.ArcRotation = e.NewAngle + 180;
-                valueSector.Angle = endSpinerController.SpinnerAngle - e.NewAngle;
-            };
-
-            endThumb = GetTemplateChild("PART_EndThumb") as Shape;
-            endTransform = GetTemplateChild("PART_EndTransform") as CompositeTransform;
-            endSpinerController = new SpinerController(endThumb, endTransform);
-
-
-            endSpinerController.Radius = 100;
-            endSpinerController.AngleChanged += (sender, e) =>
-            {
-                valueSector.Angle = e.NewAngle - beginSpinerController.SpinnerAngle;
-            };
+                valueSector.Angle = mainSpinerController.SpinnerAngle - e.NewAngle;
+            }
         }
 
-        // 
-        private static readonly DependencyProperty BaseStyleProperty = DependencyProperty.Register(
-            "BaseStyle",
-            typeof(Style),
-            typeof(DoubleCircleSlider),
-            new PropertyMetadata(new Style(), new PropertyChangedCallback(OnBaseStyleChanged))
+        // Main thumb style
+        private static readonly DependencyProperty SecondThumbProperty = DependencyProperty.Register(
+            "SecondThumb",
+            typeof(FrameworkElement),
+            typeof(CircleSlider),
+            new PropertyMetadata(
+                new Ellipse()
+                {
+                    Width = 30,
+                    Height = 30,
+                    Fill = new SolidColorBrush(Colors.White)
+                },
+                new PropertyChangedCallback(OnMainThumbChanged))
         );
 
-        public Style BaseStyle
+        public FrameworkElement SecondThumb
         {
-            get { return (Style)GetValue(BaseStyleProperty); }
-            set { SetValue(BaseStyleProperty, value); }
+            get { return (FrameworkElement)GetValue(SecondThumbProperty); }
+            set { SetValue(SecondThumbProperty, value); }
         }
 
-        private static void OnBaseStyleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnMainThumbChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             DoubleCircleSlider slider = sender as DoubleCircleSlider;
-            if (slider.baseSector!= null)
+            var template = (FrameworkElement)e.NewValue;
+
+            if (slider.secondThumb != null && template != null)
             {
-                var style = (Style)e.NewValue;
-                if (style.TargetType == typeof(Sector))
-                    slider.baseSector.Style = style;
+                slider.secondThumb.Content = template;
             }
         }
     }

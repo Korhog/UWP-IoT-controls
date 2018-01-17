@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="BaseControls\ArcScale.cs" />
     <Compile Include="BaseControls\Sector.cs" />
+    <Compile Include="BaseControls\SpinnerThumb.cs" />
     <Compile Include="Controllers\SpinerController.cs" />
     <Compile Include="ValueConverters\ColorToBrushValueConverter.cs" />
     <Compile Include="DoubleCircleSlider.cs" />
@@ -143,6 +144,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Themes\CircleSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Themes\SpinnerThumb.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

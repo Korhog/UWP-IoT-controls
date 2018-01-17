@@ -9,8 +9,7 @@
     xmlns:base="using:IoT.BaseControls"
     mc:Ignorable="d">
 
-    <Grid Background="Black">
-        
+    <Grid Background="Black">        
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -24,15 +23,25 @@
             </Ellipse>
 
             <Ellipse Fill="#1d1d2d" Width="90" Height="90"/>
-
-            <iot:CircleSlider  
-                Radius="100"
-                SectorWidth="20"                
-                ValueColor="DeepSkyBlue"
-                BaseColor="#1d1d2d"
-                Grid.Row="0"
-                Grid.Column="0">                
-            </iot:CircleSlider>
+            
+            <iot:CircleSlider                  
+                    Radius="90"
+                    SectorWidth="24"                
+                    ValueColor="#3D4D6D"
+                    BaseColor="#1D1D2D"
+                    Grid.Row="0"
+                    Grid.Column="0">
+                <iot:CircleSlider.MainThumb>
+                    <Grid>
+                        <Ellipse 
+                            Stroke="#3D4D6D"
+                            StrokeThickness="5"                       
+                            Width="30" 
+                            Height="30" 
+                            Fill="White"/>
+                    </Grid>
+                </iot:CircleSlider.MainThumb>
+            </iot:CircleSlider>           
 
             <base:Sector 
                 EndingsStyle="ENDINGS_ROUND"
@@ -44,15 +53,31 @@
                 Angle="240"
                 Radius="51"
                 ArcWidth="4"  
-                Fill="YellowGreen" />           
+                Fill="YellowGreen"/>
 
+            <iot:DoubleCircleSlider 
+                    Radius="90"
+                    ValueColor="#3D4D6D"
+                    BaseColor="#1D1D2D"
+                    SectorWidth="24"
+                    Grid.Column="1">
+                <iot:DoubleCircleSlider.MainThumb>
+                    <Ellipse 
+                        Stroke="#3D4D6D"
+                        StrokeThickness="5"                       
+                        Width="30" 
+                        Height="30" 
+                        Fill="White"/>
+                </iot:DoubleCircleSlider.MainThumb>
 
-            <iot:DoubleCircleSlider Grid.Column="1">
-                <iot:DoubleCircleSlider.BaseStyle>
-                    <Style TargetType="base:Sector">
-                        <Setter Property="Background" Value="Black"/>
-                    </Style>
-                </iot:DoubleCircleSlider.BaseStyle>
+                <iot:DoubleCircleSlider.SecondThumb>
+                    <Ellipse 
+                        Stroke="#3D4D6D"
+                        StrokeThickness="5"                        
+                        Width="30" 
+                        Height="30" 
+                        Fill="White"/>
+                </iot:DoubleCircleSlider.SecondThumb>
             </iot:DoubleCircleSlider>
 
             <base:ArcScale 

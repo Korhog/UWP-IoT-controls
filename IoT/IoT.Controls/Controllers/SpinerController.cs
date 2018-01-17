@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IoT.BaseControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,19 @@ namespace IoT.Controllers
 
         double baseOffset = 12.0;
 
+        public double BaseOffset
+        {
+            get { return baseOffset; }
+            set
+            {
+                baseOffset = value;
+                UpdateSpiner();
+            }
+        }
+        
+
+
+
         double beginRange = 0.0;
         double endRange = 359.0;
 
@@ -41,13 +55,11 @@ namespace IoT.Controllers
         Point beginPosition;
         CompositeTransform compositeTransform;
 
-        public SpinerController(Shape thumb, CompositeTransform transform)
+        public SpinerController(SpinnerThumb thumb, CompositeTransform transform)
         {
             compositeTransform = transform;
             compositeTransform.CenterX = thumb.Width / 2;
             compositeTransform.CenterY = thumb.Height / 2;
-
-            baseOffset = thumb.Height / 2;
 
             thumb.ManipulationStarting += OnManipulationStarting;
             thumb.ManipulationDelta += OnManipulationDelta;
