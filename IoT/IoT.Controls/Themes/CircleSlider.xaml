@@ -18,7 +18,7 @@
                             Angle="280"
                             Radius="100"
                             ArcWidth="{TemplateBinding SectorWidth}"  
-                            Fill="{TemplateBinding BaseColor}" />
+                            Fill="{TemplateBinding BaseFill}" />
                         <base:Sector 
                             EndingsStyle="ENDINGS_ROUND"
                             x:Name="PART_Value"
@@ -28,7 +28,7 @@
                             Angle="0"
                             Radius="100"
                             ArcWidth="{TemplateBinding SectorWidth}"  
-                            Fill="{TemplateBinding ValueColor}"/>
+                            Fill="{TemplateBinding ValueFill}"/>
                         <base:SpinnerThumb
                             x:Name="PART_MainThumb"
                             Width="40"

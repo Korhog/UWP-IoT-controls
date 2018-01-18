@@ -14,90 +14,139 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>               
-            </Grid.ColumnDefinitions>            
+            </Grid.ColumnDefinitions>
 
-            <Ellipse Grid.ColumnSpan="2" Grid.RowSpan="2" Width="100" Height="100">
-                <Ellipse.Fill>
-                    <SolidColorBrush x:Name="brush" Color="Black"/>
-                </Ellipse.Fill>
-            </Ellipse>
+            <Grid>                
+                <Ellipse Grid.ColumnSpan="2" Grid.RowSpan="2" Width="100" Height="100">
+                    <Ellipse.Fill>
+                        <SolidColorBrush x:Name="brush" Color="Black"/>
+                    </Ellipse.Fill>
+                </Ellipse>
 
-            <Ellipse Fill="#1d1d2d" Width="90" Height="90"/>
-            
-            <iot:CircleSlider                  
-                    Radius="90"
-                    SectorWidth="24"                
-                    ValueColor="#3D4D6D"
-                    BaseColor="#1D1D2D"
-                    Grid.Row="0"
-                    Grid.Column="0">
-                <iot:CircleSlider.MainThumb>
-                    <Grid>
-                        <Ellipse 
-                            Stroke="#3D4D6D"
-                            StrokeThickness="5"                       
-                            Width="30" 
-                            Height="30" 
-                            Fill="White"/>
-                    </Grid>
-                </iot:CircleSlider.MainThumb>
-            </iot:CircleSlider>           
+                <Ellipse Fill="#0d0d1d" Width="108" Height="108"/>
+                <base:Sector                     
+                    Angle="120" 
+                    ArcRotation="220"
+                    ArcWidth="6"
+                    Radius="54"/>
+                <TextBlock 
+                    Margin="0,0,-14,0"
+                    Foreground="White"
+                    FontSize="40"
+                    FontFamily="Microsoft JhengHei"
+                    FontWeight="Light"
+                    Text="24°"
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>                
 
-            <base:Sector 
-                EndingsStyle="ENDINGS_ROUND"
-                Grid.Row="0"
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                ArcRotation="180"
-                Angle="240"
-                Radius="51"
-                ArcWidth="4"  
-                Fill="YellowGreen"/>
+                <iot:CircleSlider                  
+                        Radius="90"
+                        SectorWidth="34"                
+                        BaseFill="#1D1D2D"
+                        AngleChanged="CircleSlider_AngleChanged"
+                        Grid.Row="0"
+                        Grid.Column="0">
+
+                    <iot:CircleSlider.ValueFill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="DeepSkyBlue" Offset="0"/>
+                            <GradientStop Color="DeepPink" Offset="1"/>
+                        </LinearGradientBrush>
+                    </iot:CircleSlider.ValueFill>
+
+                    <iot:CircleSlider.MainThumb>
+                        <Grid>
+                            <Ellipse 
+                                Width="60"
+                                Height="60"                  
+                                Fill="Transparent"/>
+                            <Ellipse 
+                                Width="40"
+                                Height="40"
+                                Stroke="Black"
+                                StrokeThickness="2"                       
+                                Fill="White"/>
+                        </Grid>
+                    </iot:CircleSlider.MainThumb>
+                </iot:CircleSlider>
+            </Grid>
 
             <iot:DoubleCircleSlider 
                     Radius="90"
-                    ValueColor="#3D4D6D"
-                    BaseColor="#1D1D2D"
-                    SectorWidth="24"
+                    BaseFill="#1D1D2D"
+                    SectorWidth="20"
                     Grid.Column="1">
                 <iot:DoubleCircleSlider.MainThumb>
-                    <Ellipse 
-                        Stroke="#3D4D6D"
-                        StrokeThickness="5"                       
-                        Width="30" 
-                        Height="30" 
-                        Fill="White"/>
+                    <Grid>
+                        <Ellipse 
+                            Width="60"
+                            Height="60"                  
+                            Fill="Transparent"/>
+                        <Ellipse 
+                            Stroke="DeepPink"
+                            StrokeThickness="4"                       
+                            Width="24" 
+                            Height="24" 
+                            Fill="#1D1D2D"/>
+                    </Grid>
                 </iot:DoubleCircleSlider.MainThumb>
 
+                <iot:DoubleCircleSlider.ValueFill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="DeepSkyBlue" Offset="0"/>
+                        <GradientStop Color="DeepPink" Offset="1"/>
+                    </LinearGradientBrush>
+                </iot:DoubleCircleSlider.ValueFill>
+
                 <iot:DoubleCircleSlider.SecondThumb>
-                    <Ellipse 
-                        Stroke="#3D4D6D"
-                        StrokeThickness="5"                        
-                        Width="30" 
-                        Height="30" 
-                        Fill="White"/>
+                    <Grid>
+                        <Ellipse 
+                            Width="60"
+                            Height="60"                  
+                            Fill="Transparent"/>
+                        <Ellipse 
+                            Stroke="DeepSkyBlue"
+                            StrokeThickness="4"                        
+                            Width="24" 
+                            Height="24" 
+                            Fill="#1D1D2D"/>
+                    </Grid>
                 </iot:DoubleCircleSlider.SecondThumb>
             </iot:DoubleCircleSlider>
 
             <base:ArcScale 
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                SectionsCount="72"
-                Width="222" 
-                Height="222"
+                SectionsCount="48"
+                BeginAngle="45"
+                EndAngle="315"
+                Width="210" 
+                Height="210"
                 SectionHeight="6"   
+                SectionWidth="1"
+                Grid.Column="1" />
+
+            <base:ArcScale 
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                SectionsCount="12"
+                BeginAngle="45"
+                EndAngle="315"
+                Width="218" 
+                Height="218"
+                SectionHeight="10"   
                 SectionWidth="2"
                 Grid.Column="1" />
 
             <base:ArcScale 
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                SectionsCount="4"
+                SectionsCount="2"                
+                BeginAngle="90"
+                EndAngle="270"                
                 Width="234" 
                 Height="234"
-                SectionHeight="12"
-                SectionWidth="4"
+                SectionHeight="18"
+                SectionWidth="2"
                 Grid.Column="1" />
         </Grid> 
     </Grid>

@@ -45,12 +45,12 @@ namespace IoT.Controls
             valueSector = GetTemplateChild("PART_Value") as Sector;
             valueSector.Radius = Radius;
             valueSector.Width = Width;
-            valueSector.Fill = new SolidColorBrush(ValueColor);            
+            valueSector.Fill = ValueFill;            
 
             baseSector = GetTemplateChild("PART_Base") as Sector;
             baseSector.Radius = Radius;
             baseSector.Width = Width;
-            baseSector.Fill = new SolidColorBrush(BaseColor);
+            baseSector.Fill = BaseFill;
 
             mainTransform = GetTemplateChild("PART_MainTransform") as CompositeTransform;
             mainSpinerController = new SpinerController(mainThumb, mainTransform);
@@ -84,49 +84,49 @@ namespace IoT.Controls
         }
 
         // Цвет основы
-        private static readonly DependencyProperty BaseColorProperty = DependencyProperty.Register(
-            "BaseColor",
-            typeof(Color),
+        private static readonly DependencyProperty BaseFillProperty = DependencyProperty.Register(
+            "BaseFill",
+            typeof(Brush),
             typeof(CircleSlider),
             new PropertyMetadata(
-                Colors.YellowGreen, 
-                new PropertyChangedCallback(OnBaseColorChanged))
+                new SolidColorBrush(Colors.YellowGreen), 
+                new PropertyChangedCallback(OnBaseFillChanged))
         );
 
-        public Color BaseColor
+        public Brush BaseFill
         {
-            get { return (Color)GetValue(BaseColorProperty); }
-            set { SetValue(BaseColorProperty, value); }
+            get { return (Brush)GetValue(BaseFillProperty); }
+            set { SetValue(BaseFillProperty, value); }
         }
 
-        private static void OnBaseColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnBaseFillChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             CircleSlider slider = sender as CircleSlider;
             if (slider.baseSector != null)
-                slider.baseSector.Fill = new SolidColorBrush((Color)e.NewValue);
+                slider.baseSector.Fill = (Brush)e.NewValue;
         }
 
         // Цвет значения
-        private static readonly DependencyProperty ValueColorProperty = DependencyProperty.Register(
-            "ValueColor",
-            typeof(Color),
+        private static readonly DependencyProperty ValueFillProperty = DependencyProperty.Register(
+            "ValueFill",
+            typeof(Brush),
             typeof(CircleSlider),
             new PropertyMetadata(
-                Colors.Green,
-                new PropertyChangedCallback(OnValueColorChanged))
+                new SolidColorBrush(Colors.Green),
+                new PropertyChangedCallback(OnValueFillChanged))
         );
 
-        public Color ValueColor
+        public Brush ValueFill
         {
-            get { return (Color)GetValue(ValueColorProperty); }
-            set { SetValue(ValueColorProperty, value); }
+            get { return (Brush)GetValue(ValueFillProperty); }
+            set { SetValue(ValueFillProperty, value); }
         }
 
-        private static void OnValueColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnValueFillChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             CircleSlider slider = sender as CircleSlider;
             if (slider.valueSector != null)
-                slider.valueSector.Fill = new SolidColorBrush((Color)e.NewValue);
+                slider.valueSector.Fill = (Brush)e.NewValue;
         }
 
         // Ширина

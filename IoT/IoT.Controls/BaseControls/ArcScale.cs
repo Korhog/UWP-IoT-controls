@@ -50,7 +50,7 @@ namespace IoT.BaseControls
 
 
             double angle = BeginAngle;
-            double sectionAngle = (EndAngle - BeginAngle) / sec;
+            double sectionAngle = (EndAngle - BeginAngle) / SectionsCount;
 
             sections.Clear(); 
 

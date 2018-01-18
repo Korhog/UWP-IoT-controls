@@ -24,7 +24,7 @@
                                         X2="{Binding X2}"                                        
                                         Y1="{Binding Y1}" 
                                         Y2="{Binding Y2}" 
-                                        Stroke="#3D3D3D" StrokeThickness="{Binding Width}"/>
+                                        Stroke="White" StrokeThickness="{Binding Width}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

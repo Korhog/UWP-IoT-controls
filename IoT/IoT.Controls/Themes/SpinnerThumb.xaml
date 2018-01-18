@@ -7,9 +7,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SpinnerThumb">
-                    <Border>
-                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Border>
+                    <ContentPresenter 
+                        Padding="-100"
+                        Width="40"
+                        Height="40" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

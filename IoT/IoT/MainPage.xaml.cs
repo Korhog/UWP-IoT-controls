@@ -13,5 +13,10 @@ namespace IoT
             ApplicationView view = ApplicationView.GetForCurrentView();
             view.TryEnterFullScreenMode();
         }
+
+        private void CircleSlider_AngleChanged(object sender, Controllers.SpinerControllerAngleChangedArgs e)
+        {
+
+        }
     }
 }
